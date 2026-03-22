@@ -37,7 +37,7 @@ class _AboutUiState extends State<AboutUi> {
                   height: 20,
                 ),
                 Text(
-                  'คำนวณค่าดัชนมวลกาย BMI',
+                  'คำนวณค่าดัชนีมวลกาย BMI',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -59,12 +59,12 @@ class _AboutUiState extends State<AboutUi> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                // Image.network(
-                //   'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Logosau-02.png/250px-Logosau-02.png',
-                //   width: 100,
-                //   height: 100,
-                //   fit: BoxFit.cover,
-                // ),
+                Image.network(
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Logosau-02.png/250px-Logosau-02.png',
+                  width: 80,
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
                 Text(
                   'Developed by Supanat.',
                   style: TextStyle(

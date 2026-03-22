@@ -41,52 +41,63 @@ class _BmiUiState extends State<BmiUi> {
                 SizedBox(
                   height: 20,
                 ),
+                // Weight
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'น้ำหนัก (kg.)',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
+                // input weight
                 TextField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกน้ำหนัก',
-                    border: OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
+                // Height
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'ส่วนสูง (cm.)',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 16,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
+                // input height
                 TextField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกส่วนสูง',
-                    border: OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 30,
                 ),
+                // Calculate button
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -111,6 +122,7 @@ class _BmiUiState extends State<BmiUi> {
                 SizedBox(
                   height: 15,
                 ),
+                // Clear button
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
