@@ -8,6 +8,12 @@ class BmiUi extends StatefulWidget {
 }
 
 class _BmiUiState extends State<BmiUi> {
+  TextEditingController wController = TextEditingController();
+  TextEditingController hController = TextEditingController();
+
+  String bmi = '0.00';
+  String result = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +64,7 @@ class _BmiUiState extends State<BmiUi> {
                 ),
                 // input weight
                 TextField(
+                  controller: wController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกน้ำหนัก',
@@ -86,6 +93,7 @@ class _BmiUiState extends State<BmiUi> {
                 ),
                 // input height
                 TextField(
+                  controller: hController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกส่วนสูง',
@@ -99,7 +107,36 @@ class _BmiUiState extends State<BmiUi> {
                 ),
                 // Calculate button
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Validate input
+                    if (wController.text.isEmpty || hController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('กรุณากรอกน้ำหนักและส่วนสูง'),
+                        ),
+                      );
+                      return;
+                    }
+
+                    double w = double.parse(wController.text);
+                    double h = double.parse(hController.text) / 100;
+                    double bmi = w / (h * h);
+                    String result = '';
+                    if (bmi < 18.5) {
+                      result = 'น้ำหนักน้อย / ผอม';
+                    } else if (bmi >= 18.5 && bmi < 25) {
+                      result = 'น้ำหนักปกติ';
+                    } else if (bmi >= 25 && bmi < 30) {
+                      result = 'น้ำหนักมาก / โรคอ้วนระดับ 1';
+                    } else if (bmi >= 30 && bmi < 35) {
+                      result = 'โรคอ้วนระดับ 2';
+                    } else {
+                      result = 'โรคอ้วนระดับ 3';
+                    }
+                    this.bmi = bmi.toStringAsFixed(2);
+                    this.result = result;
+                    setState(() {});
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
                     padding: EdgeInsets.symmetric(
@@ -124,7 +161,13 @@ class _BmiUiState extends State<BmiUi> {
                 ),
                 // Clear button
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    wController.clear();
+                    hController.clear();
+                    bmi = '0.00';
+                    result = '';
+                    setState(() {});
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                     padding: EdgeInsets.symmetric(
@@ -168,7 +211,7 @@ class _BmiUiState extends State<BmiUi> {
                         height: 10,
                       ),
                       Text(
-                        '0.00',
+                        bmi,
                         style: TextStyle(
                           color: Colors.deepOrange,
                           fontSize: 60,
@@ -179,7 +222,7 @@ class _BmiUiState extends State<BmiUi> {
                         height: 10,
                       ),
                       Text(
-                        'การแปลผล',
+                        result,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,

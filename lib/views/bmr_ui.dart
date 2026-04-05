@@ -8,6 +8,13 @@ class BmrUi extends StatefulWidget {
 }
 
 class _BmrUiState extends State<BmrUi> {
+  TextEditingController weightController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+
+  String bmr = '0.00';
+  String gender = 'ชาย';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,9 +67,13 @@ class _BmrUiState extends State<BmrUi> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            gender = 'ชาย';
+                          });
+                        },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: gender == 'ชาย' ? Colors.blueAccent : Colors.grey,
                           padding: EdgeInsets.symmetric(
                             horizontal: 40,
                             vertical: 15,
@@ -85,9 +96,13 @@ class _BmrUiState extends State<BmrUi> {
                     ),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            gender = 'หญิง';
+                          });
+                        },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey,
+                          backgroundColor: gender == 'หญิง' ? Colors.pinkAccent : Colors.grey,
                           padding: EdgeInsets.symmetric(
                             horizontal: 40,
                             vertical: 15,
@@ -125,6 +140,7 @@ class _BmrUiState extends State<BmrUi> {
                   height: 10,
                 ),
                 TextField(
+                  controller: weightController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกน้ำหนัก',
@@ -151,6 +167,7 @@ class _BmrUiState extends State<BmrUi> {
                   height: 10,
                 ),
                 TextField(
+                  controller: heightController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกส่วนสูง',
@@ -177,6 +194,7 @@ class _BmrUiState extends State<BmrUi> {
                   height: 10,
                 ),
                 TextField(
+                  controller: ageController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: 'กรุณากรอกอายุ',
@@ -189,7 +207,34 @@ class _BmrUiState extends State<BmrUi> {
                   height: 30,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Validate input
+                    if (weightController.text.isEmpty ||
+                        heightController.text.isEmpty ||
+                        ageController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
+                        ),
+                      );
+                      return;
+                    }
+
+                    double weight = double.parse(weightController.text);
+                    double height = double.parse(heightController.text);
+                    int age = int.parse(ageController.text);
+
+                    double calculatedBmr;
+                    if (gender == 'ชาย') {
+                      calculatedBmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+                    } else {
+                      calculatedBmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+                    }
+
+                    setState(() {
+                      bmr = calculatedBmr.toStringAsFixed(2);
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
                     padding: EdgeInsets.symmetric(
@@ -213,7 +258,14 @@ class _BmrUiState extends State<BmrUi> {
                   height: 15,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      weightController.clear();
+                      heightController.clear();
+                      ageController.clear();
+                      bmr = '0.00';
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey,
                     padding: EdgeInsets.symmetric(
@@ -257,7 +309,7 @@ class _BmrUiState extends State<BmrUi> {
                         height: 10,
                       ),
                       Text(
-                        '0.00',
+                        bmr,
                         style: TextStyle(
                           color: Colors.deepOrange,
                           fontSize: 60,
